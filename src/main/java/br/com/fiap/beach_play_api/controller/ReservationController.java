@@ -42,4 +42,18 @@ public class ReservationController {
         return res.map(ResponseEntity::ok)
                   .orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+    @DeleteMapping("/{id}")
+public ResponseEntity<Void> delete(@PathVariable Long id) {
+    System.out.println("Removendo reserva " + id);
+    
+    boolean removed = repository.removeIf(res -> res.getId().equals(id));
+
+    if (removed) {
+        return ResponseEntity.noContent().build(); // Retorna 204 No Content se foi removido
+    } else {
+        return ResponseEntity.notFound().build(); // Retorna 404 se o ID não existir
+    }
+}
+
 }
